@@ -50,10 +50,51 @@
             <version>1.9.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>webui.tests</groupId>
+            <artifactId>beans</artifactId>
+            <version>1.7.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
+
+    <repositories>
+        <repository>
+            <id>openspaces</id>
+            <url>http://maven-repository.openspaces.org</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>overrides</id>
+            <properties>
+                <test.ng.argline>-Dspring.profiles.active=overrides</test.ng.argline>
+             </properties>
+
+        </profile>
+    </profiles>
+
+    <properties>
+            <test.ng.argline></test.ng.argline>
+    </properties>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.14</version>
+                <configuration>
+                    <argLine>${test.ng.argline}</argLine>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>webui.tests.listeners.TestngSnapshotListener</value>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
